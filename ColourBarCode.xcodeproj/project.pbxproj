@@ -16,6 +16,8 @@
 		9F5E69A91CEFAF93004E26D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F5E69A71CEFAF93004E26D5 /* LaunchScreen.storyboard */; };
 		9F5E69B41CEFAF93004E26D5 /* ColourBarCodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F5E69B31CEFAF93004E26D5 /* ColourBarCodeTests.m */; };
 		9F5E69BF1CEFAF93004E26D5 /* ColourBarCodeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F5E69BE1CEFAF93004E26D5 /* ColourBarCodeUITests.m */; };
+		9F8D18AB1CEFCDF0005E52A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F5E69A71CEFAF93004E26D5 /* LaunchScreen.storyboard */; };
+		9F8D18AC1CEFCDF1005E52A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F5E69A71CEFAF93004E26D5 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,16 +105,11 @@
 		9F5E69951CEFAF93004E26D5 /* ColourBarCode */ = {
 			isa = PBXGroup;
 			children = (
-				9F5E69991CEFAF93004E26D5 /* AppDelegate.h */,
-				9F5E699A1CEFAF93004E26D5 /* AppDelegate.m */,
-				9F5E699C1CEFAF93004E26D5 /* ViewController.h */,
-				9F5E699D1CEFAF93004E26D5 /* ViewController.m */,
-				9F5E699F1CEFAF93004E26D5 /* Main.storyboard */,
-				9F5E69A51CEFAF93004E26D5 /* Assets.xcassets */,
-				9F5E69A71CEFAF93004E26D5 /* LaunchScreen.storyboard */,
-				9F5E69AA1CEFAF93004E26D5 /* Info.plist */,
-				9F5E69A21CEFAF93004E26D5 /* ColourBarCode.xcdatamodeld */,
-				9F5E69961CEFAF93004E26D5 /* Supporting Files */,
+				9F8D18A71CEFCC02005E52A6 /* CommonServices */,
+				9F8D18A61CEFCBE6005E52A6 /* iOS */,
+				9F8D18A51CEFCBCA005E52A6 /* BussinessRespo */,
+				9F8D18A41CEFCBC4005E52A6 /* Models */,
+				9F8D18A31CEFCBB9005E52A6 /* Service */,
 			);
 			path = ColourBarCode;
 			sourceTree = "<group>";
@@ -141,6 +138,51 @@
 				9F5E69C01CEFAF93004E26D5 /* Info.plist */,
 			);
 			path = ColourBarCodeUITests;
+			sourceTree = "<group>";
+		};
+		9F8D18A31CEFCBB9005E52A6 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Service;
+			sourceTree = "<group>";
+		};
+		9F8D18A41CEFCBC4005E52A6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		9F8D18A51CEFCBCA005E52A6 /* BussinessRespo */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = BussinessRespo;
+			sourceTree = "<group>";
+		};
+		9F8D18A61CEFCBE6005E52A6 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				9F5E69991CEFAF93004E26D5 /* AppDelegate.h */,
+				9F5E699A1CEFAF93004E26D5 /* AppDelegate.m */,
+				9F5E699C1CEFAF93004E26D5 /* ViewController.h */,
+				9F5E699D1CEFAF93004E26D5 /* ViewController.m */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		9F8D18A71CEFCC02005E52A6 /* CommonServices */ = {
+			isa = PBXGroup;
+			children = (
+				9F5E699F1CEFAF93004E26D5 /* Main.storyboard */,
+				9F5E69A51CEFAF93004E26D5 /* Assets.xcassets */,
+				9F5E69A71CEFAF93004E26D5 /* LaunchScreen.storyboard */,
+				9F5E69AA1CEFAF93004E26D5 /* Info.plist */,
+				9F5E69A21CEFAF93004E26D5 /* ColourBarCode.xcdatamodeld */,
+				9F5E69961CEFAF93004E26D5 /* Supporting Files */,
+			);
+			name = CommonServices;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,6 +298,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F8D18AB1CEFCDF0005E52A6 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +306,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F8D18AC1CEFCDF1005E52A6 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
