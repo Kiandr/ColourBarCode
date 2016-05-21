@@ -16,6 +16,8 @@
 		9F5E69A91CEFAF93004E26D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F5E69A71CEFAF93004E26D5 /* LaunchScreen.storyboard */; };
 		9F5E69B41CEFAF93004E26D5 /* ColourBarCodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F5E69B31CEFAF93004E26D5 /* ColourBarCodeTests.m */; };
 		9F5E69BF1CEFAF93004E26D5 /* ColourBarCodeUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F5E69BE1CEFAF93004E26D5 /* ColourBarCodeUITests.m */; };
+		9F6907841CEFD6FE00DC9774 /* BaseModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 9F6907831CEFD6FE00DC9774 /* BaseModel.h */; };
+		9F6907891CEFE06D00DC9774 /* test.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F6907881CEFE06D00DC9774 /* test.plist */; };
 		9F8D18AB1CEFCDF0005E52A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F5E69A71CEFAF93004E26D5 /* LaunchScreen.storyboard */; };
 		9F8D18AC1CEFCDF1005E52A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F5E69A71CEFAF93004E26D5 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -55,6 +57,8 @@
 		9F5E69BA1CEFAF93004E26D5 /* ColourBarCodeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColourBarCodeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F5E69BE1CEFAF93004E26D5 /* ColourBarCodeUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColourBarCodeUITests.m; sourceTree = "<group>"; };
 		9F5E69C01CEFAF93004E26D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9F6907831CEFD6FE00DC9774 /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
+		9F6907881CEFE06D00DC9774 /* test.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = test.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +109,7 @@
 		9F5E69951CEFAF93004E26D5 /* ColourBarCode */ = {
 			isa = PBXGroup;
 			children = (
+				9F6907851CEFDFA100DC9774 /* Resources */,
 				9F8D18A71CEFCC02005E52A6 /* CommonServices */,
 				9F8D18A61CEFCBE6005E52A6 /* iOS */,
 				9F8D18A51CEFCBCA005E52A6 /* BussinessRespo */,
@@ -140,6 +145,23 @@
 			path = ColourBarCodeUITests;
 			sourceTree = "<group>";
 		};
+		9F69077F1CEFD2A200DC9774 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9F5E699C1CEFAF93004E26D5 /* ViewController.h */,
+				9F5E699D1CEFAF93004E26D5 /* ViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		9F6907851CEFDFA100DC9774 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9F6907881CEFE06D00DC9774 /* test.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		9F8D18A31CEFCBB9005E52A6 /* Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +172,7 @@
 		9F8D18A41CEFCBC4005E52A6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9F6907831CEFD6FE00DC9774 /* BaseModel.h */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -164,10 +187,9 @@
 		9F8D18A61CEFCBE6005E52A6 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				9F69077F1CEFD2A200DC9774 /* Controllers */,
 				9F5E69991CEFAF93004E26D5 /* AppDelegate.h */,
 				9F5E699A1CEFAF93004E26D5 /* AppDelegate.m */,
-				9F5E699C1CEFAF93004E26D5 /* ViewController.h */,
-				9F5E699D1CEFAF93004E26D5 /* ViewController.m */,
 			);
 			name = iOS;
 			sourceTree = "<group>";
@@ -288,6 +310,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F6907891CEFE06D00DC9774 /* test.plist in Resources */,
 				9F5E69A91CEFAF93004E26D5 /* LaunchScreen.storyboard in Resources */,
 				9F5E69A61CEFAF93004E26D5 /* Assets.xcassets in Resources */,
 				9F5E69A11CEFAF93004E26D5 /* Main.storyboard in Resources */,
@@ -320,6 +343,7 @@
 				9F5E699E1CEFAF93004E26D5 /* ViewController.m in Sources */,
 				9F5E699B1CEFAF93004E26D5 /* AppDelegate.m in Sources */,
 				9F5E69A41CEFAF93004E26D5 /* ColourBarCode.xcdatamodeld in Sources */,
+				9F6907841CEFD6FE00DC9774 /* BaseModel.h in Sources */,
 				9F5E69981CEFAF93004E26D5 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

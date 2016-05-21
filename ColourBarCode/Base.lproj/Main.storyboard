@@ -18,19 +18,23 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zji-BW-LgJ">
-                                <rect key="frame" x="277" y="285" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                                <rect key="frame" x="231" y="550" width="138" height="30"/>
+                                <state key="normal" title="Start Authentication"/>
+                                <connections>
+                                    <action selector="StartAuthentication:" destination="BYZ-38-t0r" eventType="touchDown" id="0XZ-gU-1iQ"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="zji-BW-LgJ" firstAttribute="centerY" secondItem="tta-2s-XTh" secondAttribute="centerY" id="55L-zE-dUj"/>
-                            <constraint firstItem="zji-BW-LgJ" firstAttribute="centerX" secondItem="tta-2s-XTh" secondAttribute="centerX" id="bbP-V3-XAi"/>
+                            <constraint firstItem="zji-BW-LgJ" firstAttribute="centerX" secondItem="tta-2s-XTh" secondAttribute="centerX" id="Eet-5L-txO"/>
+                            <constraint firstAttribute="bottom" secondItem="zji-BW-LgJ" secondAttribute="bottom" constant="20" symbolic="YES" id="tcW-SG-Oqc"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="354" y="357"/>
         </scene>
     </scenes>
 </document>
