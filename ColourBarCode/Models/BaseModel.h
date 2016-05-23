@@ -16,5 +16,9 @@ typedef struct NodeOperator{
     struct NodeOperator *next;
 }NodeOperator;
 
-
+typedef NS_ENUM( NSInteger, AVCamManualSetupResult ) {
+    AVCamManualSetupResultSuccess,
+    AVCamManualSetupResultCameraNotAuthorized,
+    AVCamManualSetupResultSessionConfigurationFailed
+};
 @end;

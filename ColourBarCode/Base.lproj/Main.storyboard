@@ -13,7 +13,7 @@
                         <viewControllerLayoutGuide type="top" id="NXC-Eg-4JF"/>
                         <viewControllerLayoutGuide type="bottom" id="3cU-ec-UHy"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="tta-2s-XTh">
+                    <view key="view" contentMode="scaleToFill" id="tta-2s-XTh" customClass="AAPLPreviewView">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -26,11 +26,18 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <bool key="isElement" value="YES"/>
+                        </accessibility>
                         <constraints>
                             <constraint firstItem="zji-BW-LgJ" firstAttribute="centerX" secondItem="tta-2s-XTh" secondAttribute="centerX" id="Eet-5L-txO"/>
                             <constraint firstAttribute="bottom" secondItem="zji-BW-LgJ" secondAttribute="bottom" constant="20" symbolic="YES" id="tcW-SG-Oqc"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="onOffButton" destination="zji-BW-LgJ" id="k95-2S-C1n"/>
+                        <outlet property="previewView" destination="tta-2s-XTh" id="YTV-vt-Gvn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
