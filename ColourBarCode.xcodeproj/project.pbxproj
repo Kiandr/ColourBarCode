@@ -18,8 +18,9 @@
 		9F8D18AB1CEFCDF0005E52A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F5E69A71CEFAF93004E26D5 /* LaunchScreen.storyboard */; };
 		9F8D18AC1CEFCDF1005E52A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F5E69A71CEFAF93004E26D5 /* LaunchScreen.storyboard */; };
 		9FE96A681CF3AD7C00636F63 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE96A671CF3AD7C00636F63 /* AppDelegate.m */; };
-		9FE96A6E1CF3AD9800636F63 /* AAPLPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE96A6B1CF3AD9800636F63 /* AAPLPreviewView.m */; };
 		9FE96A6F1CF3AD9800636F63 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE96A6D1CF3AD9800636F63 /* ViewController.m */; };
+		9FE96A711CF4038600636F63 /* AVFoundationImageProcessing.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE96A701CF4038600636F63 /* AVFoundationImageProcessing.m */; };
+		9FE96A781CF407CA00636F63 /* AAPLPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE96A771CF407CA00636F63 /* AAPLPreviewView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,10 +58,13 @@
 		9FE96A661CF3AD7C00636F63 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Delegates/AppDelegate.h; sourceTree = "<group>"; };
 		9FE96A671CF3AD7C00636F63 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Delegates/AppDelegate.m; sourceTree = "<group>"; };
 		9FE96A691CF3AD8600636F63 /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseModel.h; path = Models/BaseModel.h; sourceTree = "<group>"; };
-		9FE96A6A1CF3AD9800636F63 /* AAPLPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AAPLPreviewView.h; path = Controllers/AAPLPreviewView.h; sourceTree = "<group>"; };
-		9FE96A6B1CF3AD9800636F63 /* AAPLPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AAPLPreviewView.m; path = Controllers/AAPLPreviewView.m; sourceTree = "<group>"; };
 		9FE96A6C1CF3AD9800636F63 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = Controllers/ViewController.h; sourceTree = "<group>"; };
 		9FE96A6D1CF3AD9800636F63 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = Controllers/ViewController.m; sourceTree = "<group>"; };
+		9FE96A701CF4038600636F63 /* AVFoundationImageProcessing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AVFoundationImageProcessing.m; path = Delegates/AVFoundationImageProcessing.m; sourceTree = "<group>"; };
+		9FE96A721CF4039600636F63 /* AVFoundationImageProcessing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AVFoundationImageProcessing.h; path = Delegates/AVFoundationImageProcessing.h; sourceTree = "<group>"; };
+		9FE96A751CF4057800636F63 /* AVFoundationMetaDataDetection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AVFoundationMetaDataDetection.h; path = ColourBarCode/Protocols/AVFoundationMetaDataDetection.h; sourceTree = "<group>"; };
+		9FE96A761CF407CA00636F63 /* AAPLPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AAPLPreviewView.h; path = Controllers/AAPLPreviewView.h; sourceTree = "<group>"; };
+		9FE96A771CF407CA00636F63 /* AAPLPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AAPLPreviewView.m; path = Controllers/AAPLPreviewView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +120,7 @@
 				9F8D18A71CEFCC02005E52A6 /* CommonServices */,
 				9F8D18A61CEFCBE6005E52A6 /* iOS */,
 				9F8D18A51CEFCBCA005E52A6 /* BussinessRespo */,
+				9FE96A741CF4054700636F63 /* Protocols */,
 				9F8D18A41CEFCBC4005E52A6 /* Models */,
 				9F8D18A31CEFCBB9005E52A6 /* Service */,
 			);
@@ -151,10 +156,12 @@
 		9F69077F1CEFD2A200DC9774 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9FE96A6A1CF3AD9800636F63 /* AAPLPreviewView.h */,
-				9FE96A6B1CF3AD9800636F63 /* AAPLPreviewView.m */,
+				9FE96A761CF407CA00636F63 /* AAPLPreviewView.h */,
+				9FE96A771CF407CA00636F63 /* AAPLPreviewView.m */,
 				9FE96A6C1CF3AD9800636F63 /* ViewController.h */,
 				9FE96A6D1CF3AD9800636F63 /* ViewController.m */,
+				9FE96A721CF4039600636F63 /* AVFoundationImageProcessing.h */,
+				9FE96A701CF4038600636F63 /* AVFoundationImageProcessing.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -217,6 +224,15 @@
 				9FE96A671CF3AD7C00636F63 /* AppDelegate.m */,
 			);
 			name = Delegates;
+			sourceTree = "<group>";
+		};
+		9FE96A741CF4054700636F63 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				9FE96A751CF4057800636F63 /* AVFoundationMetaDataDetection.h */,
+			);
+			name = Protocols;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -355,8 +371,9 @@
 				9F5E69A41CEFAF93004E26D5 /* ColourBarCode.xcdatamodeld in Sources */,
 				9F5E69981CEFAF93004E26D5 /* main.m in Sources */,
 				9FE96A681CF3AD7C00636F63 /* AppDelegate.m in Sources */,
-				9FE96A6E1CF3AD9800636F63 /* AAPLPreviewView.m in Sources */,
+				9FE96A711CF4038600636F63 /* AVFoundationImageProcessing.m in Sources */,
 				9FE96A6F1CF3AD9800636F63 /* ViewController.m in Sources */,
+				9FE96A781CF407CA00636F63 /* AAPLPreviewView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

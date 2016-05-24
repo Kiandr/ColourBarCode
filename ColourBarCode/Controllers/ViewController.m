@@ -21,10 +21,9 @@
 
 // This is for CALayer
 #import <QuartzCore/QuartzCore.h>
-
+// To be removed
 static void * CapturingStillImageContext = &CapturingStillImageContext;
 static void * SessionRunningContext = &SessionRunningContext;
-
 static void * FocusModeContext = &FocusModeContext;
 static void * ExposureModeContext = &ExposureModeContext;
 static void * WhiteBalanceModeContext = &WhiteBalanceModeContext;
@@ -38,21 +37,19 @@ static void * LensStabilizationContext = &LensStabilizationContext;
 
 @interface ViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
-@property (nonatomic, weak) IBOutlet AAPLPreviewView *previewView;
+@property (nonatomic, weak) IBOutlet UIView *previewView;
 @property (nonatomic, weak) IBOutlet UILabel *cameraUnavailableLabel;
 @property (nonatomic, weak) IBOutlet UIButton *resumeButton;
 @property (nonatomic, weak) IBOutlet UIButton *recordButton;
 @property (nonatomic, weak) IBOutlet UIButton *cameraButton;
 @property (nonatomic, weak) IBOutlet UIButton *stillButton;
 @property (nonatomic, weak) IBOutlet UIButton *onOffButton;
-
 @property (nonatomic) NSArray *focusModes;
 @property (nonatomic, weak) IBOutlet UIView *manualHUDFocusView;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *focusModeControl;
 @property (nonatomic, weak) IBOutlet UISlider *lensPositionSlider;
 @property (nonatomic, weak) IBOutlet UILabel *lensPositionNameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *lensPositionValueLabel;
-
 @property (nonatomic) NSArray *exposureModes;
 @property (nonatomic, weak) IBOutlet UIView *manualHUDExposureView;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *exposureModeControl;
@@ -68,7 +65,6 @@ static void * LensStabilizationContext = &LensStabilizationContext;
 @property (nonatomic, weak) IBOutlet UISlider *exposureTargetOffsetSlider;
 @property (nonatomic, weak) IBOutlet UILabel *exposureTargetOffsetNameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *exposureTargetOffsetValueLabel;
-
 @property (nonatomic) NSArray *whiteBalanceModes;
 @property (nonatomic, weak) IBOutlet UIView *manualHUDWhiteBalanceView;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *whiteBalanceModeControl;
@@ -78,15 +74,10 @@ static void * LensStabilizationContext = &LensStabilizationContext;
 @property (nonatomic, weak) IBOutlet UISlider *tintSlider;
 @property (nonatomic, weak) IBOutlet UILabel *tintNameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *tintValueLabel;
-
 @property (weak, nonatomic) IBOutlet UIView *manualHUDAiIntelligenceView;
 @property(weak, nonatomic) IBOutlet UISegmentedControl *aioperationControl;
-
-
-
 @property (nonatomic, weak) IBOutlet UIView *manualHUDLensStabilizationView;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *lensStabilizationControl;
-
 // Session management.
 @property (nonatomic) dispatch_queue_t sessionQueue;
 @property (nonatomic) AVCaptureSession *session;
@@ -95,14 +86,10 @@ static void * LensStabilizationContext = &LensStabilizationContext;
 @property (nonatomic) AVCaptureMovieFileOutput *movieFileOutput;
 @property (nonatomic) AVCaptureStillImageOutput *stillImageOutput;
 @property (nonatomic) AVCaptureVideoDataOutput *videoOut;
-
 // Utilities.
 @property (nonatomic) AVCamManualSetupResult setupResult;
 @property (nonatomic, getter=isSessionRunning) BOOL sessionRunning;
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundRecordingID;
-
-
-//
 @property (nonatomic, strong) dispatch_queue_t videoDataOutputQueue;
 @property (nonatomic, strong) dispatch_queue_t audioDataOutputQueue;
 @property (nonatomic, strong) AVCaptureVideoDataOutput *videoDataOutput;
@@ -115,35 +102,30 @@ static void * LensStabilizationContext = &LensStabilizationContext;
 @property (nonatomic, strong) NSURL *recordingURL;
 @property(nonatomic, retain) __attribute__((NSObject)) CMFormatDescriptionRef outputVideoFormatDescription;
 @property(nonatomic, retain) __attribute__((NSObject)) CMFormatDescriptionRef outputAudioFormatDescription;
-
-
 // Specific options for this application:
 @property (nonatomic, strong) CALayer *customPreviewLayer;
+@property (strong, nonatomic) CALayer *imageLayer;
+@property (strong, nonatomic) CALayer *calLayerPlus;
 // Modification of prevew layer to show the OpenCV returned Image
 @property (strong, nonatomic) CIFilter *filter;
 @property (strong, nonatomic) CIContext *coreImageContext;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *previewLayer;
-@property (strong, nonatomic) CALayer *imageLayer;
 @property (strong, nonatomic) UIImage* returnImagProceecedWithOpenCv;
-
-@property (nonatomic, strong) AVCaptureVideoDataOutput *customVideoDataOutPut;
-
+@property (nonatomic, strong) AVCaptureVideoDataOutput *secondVideoDataOutput;
 @end
 
 @implementation ViewController
 
-
+#pragma Local and private members
 @synthesize session = _session;
-@synthesize customVideoDataOutPut  = _customVideoDataOutPut;
+//@synthesize SecondVideoDataOutput  = _SecondVideoDataOutput;
 @synthesize customPreviewLayer = _customPreviewLayer;
 NodeOperator *Operator;
-
 static const float kExposureDurationPower = 5; // Higher numbers will give the slider more sensitivity at shorter durations
 static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure duration to a useful range
 
 
-
-
+#pragma Load View and manage buttons
 - (IBAction)StartAuthentication:(UIButton*)sender {
     
     //ManageButton(sender);
@@ -153,8 +135,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         
 
 }
-
-- (void) ManageButton {
+- (void)ManageButton {
     
     
     if (Operator->StartStopButton)
@@ -172,17 +153,14 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     }
 
 }
-
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // Disable UI. The UI is enabled if and only if the session starts running.
     self.cameraButton.enabled = NO;
     self.recordButton.enabled = NO;
     self.stillButton.enabled = NO;
     //self.onOffButton.enabled = YES;
-    
+  
     Operator = (NodeOperator*)malloc(sizeof(NodeOperator));;
     Operator->StartStopButton = TRUE;
     [_onOffButton setSelected:YES];
@@ -346,16 +324,11 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         } );
     } );
 }
-
-
-
-
-
-
-
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self AddNewnCALayer];
+    [self AddNewVideoDevice];
+    
     
     dispatch_async( self.sessionQueue, ^{
         switch ( self.setupResult )
@@ -398,9 +371,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         }
     } );
 }
-
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidDisappear:(BOOL)animated {
     dispatch_async( self.sessionQueue, ^{
         if ( self.setupResult == AVCamManualSetupResultSuccess ) {
             [self.session stopRunning];
@@ -410,27 +381,128 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     
     [super viewDidDisappear:animated];
 }
-
-- (BOOL)prefersStatusBarHidden
-{
+- (BOOL)prefersStatusBarHidden {
     return YES;
 }
 
-#pragma mark Orientation
+#pragma mark - Protocol AVCaptureVideoDataOutputSampleBufferDelegate
+// Delegate routine that is called when a sample buffer was written
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
+      UIImage *image = [self imageFromSampleBuffer:sampleBuffer];
+    
+}
+// Create a UIImage from sample buffer data
+- (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer {
+    // Get a CMSampleBuffer's Core Video image buffer for the media data
+    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    // Lock the base address of the pixel buffer
+    CVPixelBufferLockBaseAddress(imageBuffer, 0);
+    
+    // Get the number of bytes per row for the pixel buffer
+    void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
+    
+    // Get the number of bytes per row for the pixel buffer
+    size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
+    // Get the pixel buffer width and height
+    size_t width = CVPixelBufferGetWidth(imageBuffer);
+    size_t height = CVPixelBufferGetHeight(imageBuffer);
+    
+    // Create a device-dependent RGB color space
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    // Create a bitmap graphics context with the sample buffer data
+    CGContextRef context = CGBitmapContextCreate(baseAddress, width, height, 8,
+                                                 bytesPerRow, colorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
+    // Create a Quartz image from the pixel data in the bitmap graphics context
+    CGImageRef quartzImage = CGBitmapContextCreateImage(context);
+    // Unlock the pixel buffer
+    CVPixelBufferUnlockBaseAddress(imageBuffer,0);
+    
+    // Free up the context and color space
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+    
+    // Create an image object from the Quartz image
+    UIImage *image = [UIImage imageWithCGImage:quartzImage];
+    
+    // Release the Quartz image
+    CGImageRelease(quartzImage);
+    
+    return (image);
+}
+- (void)AddNewnCALayer{
+    
+    _calLayerPlus = [CALayer layer];
+    _calLayerPlus.shadowOffset = CGSizeMake(0, 3);
+    _calLayerPlus.shadowRadius = 5.0;
+    _calLayerPlus.shadowColor = [UIColor blackColor].CGColor;
+    _calLayerPlus.shadowOpacity = 0.8;
+    _calLayerPlus.frame = CGRectMake(0, self.view.frame.size.height/4, self.view.frame.size.width, self.view.frame.size.height/2);
+    _calLayerPlus.borderColor = [UIColor whiteColor].CGColor;
+    _calLayerPlus.borderWidth = 4.0;
+    _calLayerPlus.cornerRadius = 0;
+    [self.view.layer addSublayer:_calLayerPlus];
+    
+    
+}
 
-- (BOOL)shouldAutorotate
-{
+-(void)AddNewVideoDevice{
+   
+                NSLog(@"AI ON");
+                _secondVideoDataOutput = [[AVCaptureVideoDataOutput alloc] init];
+                if ([self.session canAddOutput:_secondVideoDataOutput] ) {
+                    [self.session addOutput:_secondVideoDataOutput];
+                    self.videoDataOutput = _secondVideoDataOutput;
+                    NSDictionary *newSettings = @{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
+                    self.videoDataOutput.videoSettings = newSettings;
+                    // discard if the data output queue is blocked (as we process the still image
+                    [self.secondVideoDataOutput setAlwaysDiscardsLateVideoFrames:YES];
+                    //[output addObserver:self forKeyPath:@"capturingStillImage" options:NSKeyValueObservingOptionNew context:@"
+                    _videoDataOutputQueue = dispatch_queue_create("VideoDataOutputQueue", DISPATCH_QUEUE_SERIAL);
+                    [_secondVideoDataOutput setSampleBufferDelegate:self queue:_videoDataOutputQueue];
+                    
+                }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#pragma mark Orientation
+- (BOOL)shouldAutorotate {
     // Disable autorotation of the interface when recording is in progress.
     return ! self.movieFileOutput.isRecording;
 }
-
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskAll;
 }
-
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
-{
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
     // Note that the app delegate controls the device orientation notifications required to use the device orientation.
@@ -442,9 +514,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 }
 
 #pragma mark KVO and Notifications
-
-- (void)addObservers
-{
+- (void)addObservers {
     [self addObserver:self forKeyPath:@"session.running" options:NSKeyValueObservingOptionNew context:SessionRunningContext];
     [self addObserver:self forKeyPath:@"stillImageOutput.capturingStillImage" options:NSKeyValueObservingOptionNew context:CapturingStillImageContext];
     
@@ -468,9 +538,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionWasInterrupted:) name:AVCaptureSessionWasInterruptedNotification object:self.session];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionInterruptionEnded:) name:AVCaptureSessionInterruptionEndedNotification object:self.session];
 }
-
-- (void)removeObservers
-{
+- (void)removeObservers {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [self removeObserver:self forKeyPath:@"session.running" context:SessionRunningContext];
@@ -487,9 +555,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     
     [self removeObserver:self forKeyPath:@"stillImageOutput.lensStabilizationDuringBracketedCaptureEnabled" context:LensStabilizationContext];
 }
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     id oldValue = change[NSKeyValueChangeOldKey];
     id newValue = change[NSKeyValueChangeNewKey];
     
@@ -656,15 +722,11 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
-
-- (void)subjectAreaDidChange:(NSNotification *)notification
-{
+- (void)subjectAreaDidChange:(NSNotification *)notification {
     CGPoint devicePoint = CGPointMake( 0.5, 0.5 );
     [self focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:devicePoint monitorSubjectAreaChange:NO];
 }
-
-- (void)sessionRuntimeError:(NSNotification *)notification
-{
+- (void)sessionRuntimeError:(NSNotification *)notification {
     NSError *error = notification.userInfo[AVCaptureSessionErrorKey];
     NSLog( @"Capture session runtime error: %@", error );
     
@@ -686,9 +748,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         self.resumeButton.hidden = NO;
     }
 }
-
-- (void)sessionWasInterrupted:(NSNotification *)notification
-{
+- (void)sessionWasInterrupted:(NSNotification *)notification{
     // In some scenarios we want to enable the user to resume the session running.
     // For example, if music playback is initiated via control center while using AVCamManual,
     // then the user can let AVCamManual resume the session running, which will stop music playback.
@@ -717,9 +777,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         }];
     }
 }
-
-- (void)sessionInterruptionEnded:(NSNotification *)notification
-{
+- (void)sessionInterruptionEnded:(NSNotification *)notification {
     NSLog( @"Capture session interruption ended" );
     
     if ( ! self.resumeButton.hidden ) {
@@ -739,9 +797,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
 }
 
 #pragma mark Actions
-
-- (IBAction)resumeInterruptedSession:(id)sender
-{
+- (IBAction)resumeInterruptedSession:(id)sender {
     dispatch_async( self.sessionQueue, ^{
         // The session might fail to start running, e.g., if a phone or FaceTime call is still using audio or video.
         // A failure to start the session running will be communicated via a session runtime error notification.
@@ -765,9 +821,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         }
     } );
 }
-
-- (IBAction)toggleMovieRecording:(id)sender
-{
+- (IBAction)toggleMovieRecording:(id)sender {
     // On Feb19th I realized that AVCaptureMovieFileOutput can not co-exist with AVCaptureVideoDataOutput so each of them are being initated and added to session up on request...
     AVCaptureMovieFileOutput *movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
     if ( [self.session canAddOutput:movieFileOutput] ) {
@@ -818,9 +872,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         }
     } );
 }
-
-- (IBAction)changeCamera:(id)sender
-{
+- (IBAction)changeCamera:(id)sender {
     self.cameraButton.enabled = NO;
     self.recordButton.enabled = NO;
     self.stillButton.enabled = NO;
@@ -875,9 +927,7 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         } );
     } );
 }
-
-- (IBAction)snapStillImage:(id)sender
-{
+- (IBAction)snapStillImage:(id)sender {
     dispatch_async( self.sessionQueue, ^{
         AVCaptureConnection *stillImageConnection = [self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo];
         AVCaptureVideoPreviewLayer *previewLayer = (AVCaptureVideoPreviewLayer *)self.previewView.layer;
@@ -952,17 +1002,13 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
         }
     } );
 }
-
-- (IBAction)focusAndExposeTap:(UIGestureRecognizer *)gestureRecognizer
-{
+- (IBAction)focusAndExposeTap:(UIGestureRecognizer *)gestureRecognizer {
     if ( self.videoDevice.focusMode != AVCaptureFocusModeLocked && self.videoDevice.exposureMode != AVCaptureExposureModeCustom ) {
         CGPoint devicePoint = [(AVCaptureVideoPreviewLayer *)self.previewView.layer captureDevicePointOfInterestForPoint:[gestureRecognizer locationInView:[gestureRecognizer view]]];
         [self focusWithMode:AVCaptureFocusModeContinuousAutoFocus exposeWithMode:AVCaptureExposureModeContinuousAutoExposure atDevicePoint:devicePoint monitorSubjectAreaChange:YES];
     }
 }
-
-- (IBAction)changeManualHUD:(id)sender
-{
+- (IBAction)changeManualHUD:(id)sender {
     UISegmentedControl *control = sender;
     
     self.manualHUDFocusView.hidden = ( control.selectedSegmentIndex == 1 ) ? NO : YES;
@@ -971,522 +1017,13 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     self.manualHUDLensStabilizationView.hidden = ( control.selectedSegmentIndex == 4 ) ? NO : YES;
     self.manualHUDAiIntelligenceView.hidden = ( control.selectedSegmentIndex == 5 ) ? NO : YES;
 }
-
-- (void)maxFromImage:(const vImage_Buffer)src toImage:(const vImage_Buffer)dst
-{
+- (void)maxFromImage:(const vImage_Buffer)src toImage:(const vImage_Buffer)dst {
     int kernelSize = 7;
     vImageMin_Planar8(&src, &dst, NULL, 0, 0, kernelSize, kernelSize, kvImageDoNotTile);
 }
 
-
-#pragma mark - Protocol AVCaptureVideoDataOutputSampleBufferDelegate
-// Delegate routine that is called when a sample buffer was written
-- (void)captureOutput:(AVCaptureOutput *)captureOutput
-didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
-       fromConnection:(AVCaptureConnection *)connection
-{
-    // Create a UIImage from the sample buffer data
-    NSLog(@"Delegate routine that is called when a sample buffer was written");
-    // image for Open cv
-    UIImage *image = [self imageFromSampleBuffer:sampleBuffer];
-    
-    // Process Image in Bus Layer
-//    OpenCvServiceRepository *repo = [[OpenCvServiceRepository alloc] init];
-//    self.returnImagProceecedWithOpenCv=([repo AITurnOn:image]);
-//    
-    
-    
-    
-    
-    
-    
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        _imageLayer.contents = (__bridge id)self.returnImagProceecedWithOpenCv.CGImage;
-        _customPreviewLayer.contents = (__bridge id)self.returnImagProceecedWithOpenCv.CGImage;
-    });
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //        imageLayer.contents =  _returnImagProceecedWithOpenCv.CGImage;
-    
-    /*
-     // Fo future use reserved Feb 27th, a mechanism to play with a new preview layer
-     CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-     
-     // Custom Preview Layer
-     _customPreviewLayer = [CALayer layer];
-     _customPreviewLayer.bounds = CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width);
-     _customPreviewLayer.position = CGPointMake(self.view.frame.size.width/2., self.view.frame.size.height/2.);
-     _customPreviewLayer.affineTransform = CGAffineTransformMakeRotation(M_PI/2);
-     [self.view.layer addSublayer:_customPreviewLayer];
-     
-     // Uncomment if you needed to
-     // For the iOS the luma is contained in full plane (8-bit)
-     // Feb 27th 2016
-     size_t width = CVPixelBufferGetWidthOfPlane(imageBuffer, 0);
-     size_t height = CVPixelBufferGetHeightOfPlane(imageBuffer, 0);
-     size_t bytesPerRow = CVPixelBufferGetBytesPerRowOfPlane(imageBuffer, 0);
-     Pixel_8 *lumaBuffer = CVPixelBufferGetBaseAddressOfPlane(imageBuffer, 0);
-     const vImage_Buffer inImage = { lumaBuffer, height, width, bytesPerRow };
-     Pixel_8 *outBuffer = (Pixel_8 *)calloc(width*height, sizeof(Pixel_8));
-     const vImage_Buffer outImage = { outBuffer, height, width, bytesPerRow };
-     */
-    
-    
-    
-    
-    
-    
-    
-    // Setup background task. This is needed because the -[captureOutput:didFinishRecordingToOutputFileAtURL:fromConnections:error:]
-    // callback is not received until AVCamManual returns to the foreground unless you request background execution time.
-    // This also ensures that there will be time to write the file to the photo library when AVCamManual is backgrounded.
-    // To conclude this background execution, -endBackgroundTask is called in
-    // -[captureOutput:didFinishRecordingToOutputFileAtURL:fromConnections:error:] after the recorded file has been saved.
-    
-    
-    
-    // Update the orientation on the movie file output video connection before starting recording.
-    //    AVCaptureVideoPreviewLayer *previewLayer1 = (AVCaptureVideoPreviewLayer *)self.previewView.layer;
-    
-    // Turn OFF flash for video recording.
-    
-    // Start recording to a temporary file.
-    
-    
-    
-    
-    
-    
-    //   _previewView = (__bridge id) retImage.CGImage;
-    // render buffer
-    //    dispatch_sync(dispatch_get_main_queue(), ^{
-    //        self.customPreviewLayer.contents = (__bridge id)retImage.CGImage;;
-    //    });
-    
-    //    self.previewView.layer.contents = (__bridge id) retImage.CGImage;
-    // Test with CALayer!
-    //    CALayer *cameraLayer = _previewView.layer;
-    //    self.previewView.backgroundColor = [UIColor clearColor];
-    //   [cameraLayer setMasksToBounds:YES];
-    // cameraLayer.contents = retImage;
-    // AVCaptureVideoPreviewLayer *preview = [[AVCaptureVideoPreviewLayer alloc]initWithSession:self.session];
-    // [preview setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-    //[preview setFrame:[cameraLayer bounds]];
-    
-    
-    //[cameraLayer addSublayer:preview];
-    
-    // convert from Core Media to Core Video
-    
-}
-
-
-// Create a UIImage from sample buffer data
-- (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer
-{
-    // Get a CMSampleBuffer's Core Video image buffer for the media data
-    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    // Lock the base address of the pixel buffer
-    CVPixelBufferLockBaseAddress(imageBuffer, 0);
-    
-    // Get the number of bytes per row for the pixel buffer
-    void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
-    
-    // Get the number of bytes per row for the pixel buffer
-    size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
-    // Get the pixel buffer width and height
-    size_t width = CVPixelBufferGetWidth(imageBuffer);
-    size_t height = CVPixelBufferGetHeight(imageBuffer);
-    
-    // Create a device-dependent RGB color space
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    
-    // Create a bitmap graphics context with the sample buffer data
-    CGContextRef context = CGBitmapContextCreate(baseAddress, width, height, 8,
-                                                 bytesPerRow, colorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
-    // Create a Quartz image from the pixel data in the bitmap graphics context
-    CGImageRef quartzImage = CGBitmapContextCreateImage(context);
-    // Unlock the pixel buffer
-    CVPixelBufferUnlockBaseAddress(imageBuffer,0);
-    
-    // Free up the context and color space
-    CGContextRelease(context);
-    CGColorSpaceRelease(colorSpace);
-    
-    // Create an image object from the Quartz image
-    UIImage *image = [UIImage imageWithCGImage:quartzImage];
-    
-    // Release the Quartz image
-    CGImageRelease(quartzImage);
-    
-    return (image);
-}
-
-// Find Me
--(IBAction)TurnOnAI:(id)sender{
-    if (_videoDevice){
-        NSLog(@"Device name: %@", [self.videoDevice localizedName]);
-        UISegmentedControl *control = sender;
-        if ([self.videoDevice position] == AVCaptureDevicePositionBack) {
-            NSLog(@"CameraPsitionis AVCaptureDevicePositionBack");
-        }
-        else
-            NSLog(@"CameraPsitionis AVCaptureDevicePositionFront");
-        
-        switch (control.selectedSegmentIndex) {
-                // turn off tourch
-            case 0:
-            {
-                NSLog(@"AI OFF");
-                // Turn off the device
-                //                _customPreviewLayer.removeFromSuperlayer;
-                break;
-            }
-                // turn on turch
-            case 1:
-            {
-                NSLog(@"AI ON");
-                _customVideoDataOutPut = [[AVCaptureVideoDataOutput alloc] init];
-                if ([self.session canAddOutput:_customVideoDataOutPut] ) {
-                    // run the OpenCV Bussiness RepoOnly.
-                    
-                    
-                    
-                    
-                    
-                    [self.session addOutput:_customVideoDataOutPut];
-                    self.videoDataOutput = _customVideoDataOutPut;
-                    NSDictionary *newSettings = @{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
-                    self.videoDataOutput.videoSettings = newSettings;
-                    
-                    // discard if the data output queue is blocked (as we process the still image
-                    [self.customVideoDataOutPut setAlwaysDiscardsLateVideoFrames:YES];
-                    //[output addObserver:self forKeyPath:@"capturingStillImage" options:NSKeyValueObservingOptionNew context:@"
-                    _videoDataOutputQueue = dispatch_queue_create("VideoDataOutputQueue", DISPATCH_QUEUE_SERIAL);
-                    [_customVideoDataOutPut setSampleBufferDelegate:self queue:_videoDataOutputQueue];
-                    // Cearing an CALayer
-                    self.creatAnCALayer;
-                    
-                    
-                }
-                
-                break;
-            }
-                
-            default:
-                break;
-        }
-    }
-}
--(void)creatAnCALayer{
-    //    CALayer *myLayer = self.previewView.layer;
-    self.view.layer.backgroundColor = [UIColor blueColor].CGColor;
-    self.view.layer.cornerRadius = 40.0;
-    self.view.layer.frame = CGRectInset(self.view.layer.frame, 5, 5);
-    
-    /* CALayer *sublayer = [CALayer layer];
-     sublayer.backgroundColor = [UIColor blueColor].CGColor;
-     sublayer.shadowOffset = CGSizeMake(0, 3);
-     sublayer.shadowRadius = 5.0;
-     sublayer.shadowColor = [UIColor blackColor].CGColor;
-     sublayer.shadowOpacity = 0.8;
-     sublayer.frame = CGRectMake(30, 30, 128, 192);
-     sublayer.borderColor = [UIColor blackColor].CGColor;
-     sublayer.borderWidth = 2.0;
-     sublayer.cornerRadius = 10.0;
-     [self.view.layer addSublayer:sublayer];
-     */
-    
-    //    _imageLayer= [CALayer layer];
-    //    _imageLayer.frame = sublayer.bounds;
-    //    _imageLayer.cornerRadius = 10.0;
-    //        _imageLayer.affineTransform = CGAffineTransformMakeRotation(M_PI/2);
-    
-    //    self.imageLayer.masksToBounds = YES;
-    //    [sublayer addSublayer:self.imageLayer];
-    
-    
-    // Preview
-    _customPreviewLayer = [CALayer layer];
-    
-    _customPreviewLayer.frame = CGRectMake(0, 0, self.view.frame.size.height/2, self.view.frame.size.width/2);
-    _customPreviewLayer.shadowOffset =CGSizeMake(0, 3);
-    _customPreviewLayer.bounds = CGRectMake(0, 0, self.view.frame.size.height/2, self.view.frame.size.width/2);
-    _customPreviewLayer.position = CGPointMake(self.view.frame.size.width/2., self.view.frame.size.height/2.);
-    _customPreviewLayer.affineTransform = CGAffineTransformMakeRotation(M_PI/2);
-    _customPreviewLayer.cornerRadius = 20;
-    _customPreviewLayer.shadowColor = [UIColor greenColor].CGColor;
-    _customPreviewLayer.shadowOpacity =  0.8;
-    _customPreviewLayer.borderWidth =  2.0;
-    _customPreviewLayer.borderColor = [UIColor yellowColor].CGColor;
-    _customPreviewLayer.masksToBounds = YES;
-    [self.view.layer addSublayer:_customPreviewLayer];
-    
-    
-}
-
-
--(IBAction)changeTourchMode:(id)sender{
-    UISegmentedControl *control = sender;
-    // Flash control
-    if ([self.videoDevice hasTorch]) {
-        [self.videoDevice lockForConfiguration:nil];
-        switch (control.selectedSegmentIndex) {
-                // turn off tourch
-            case 0:
-            {
-                
-                if (self.videoDevice.torchMode  == AVCaptureTorchModeOn) {
-                    NSLog(@"%f",self.videoDevice.torchLevel);
-                    [self.videoDevice setTorchMode:AVCaptureTorchModeOff];
-                    [self.videoDevice setFlashMode:AVCaptureFlashModeOff];
-                    //                    BOOL success = [self.videoDevice setTorchModeOnWithLevel:self.videoDevice.torchLevel   error:nil];
-                    [self.videoDevice unlockForConfiguration];
-                }
-                
-                break;
-            }
-                // turn on turch
-            case 1:
-            {
-                if (self.videoDevice.torchMode == AVCaptureTorchModeOff) {
-                    NSLog(@"%f",self.videoDevice.torchLevel);
-                    [self.videoDevice setTorchMode:AVCaptureTorchModeOn];
-                    [self.videoDevice setFlashMode:AVCaptureFlashModeOn];
-                    //                    BOOL success = [self.videoDevice setTorchModeOnWithLevel:self.videoDevice.torchLevel   error:nil];
-                    [self.videoDevice unlockForConfiguration];
-                }
-                break;
-            }
-                
-            default:
-                break;
-        }
-    }
-    
-    
-    
-}
-
-- (IBAction)changeFocusMode:(id)sender
-{
-    UISegmentedControl *control = sender;
-    AVCaptureFocusMode mode = (AVCaptureFocusMode)[self.focusModes[control.selectedSegmentIndex] intValue];
-    NSError *error = nil;
-    
-    if ( [self.videoDevice lockForConfiguration:&error] ) {
-        if ( [self.videoDevice isFocusModeSupported:mode] ) {
-            self.videoDevice.focusMode = mode;
-        }
-        else {
-            NSLog( @"Focus mode %@ is not supported. Focus mode is %@.", [self stringFromFocusMode:mode], [self stringFromFocusMode:self.videoDevice.focusMode] );
-            self.focusModeControl.selectedSegmentIndex = [self.focusModes indexOfObject:@(self.videoDevice.focusMode)];
-        }
-        [self.videoDevice unlockForConfiguration];
-    }
-    else {
-        NSLog( @"Could not lock device for configuration: %@", error );
-    }
-}
-- (IBAction)changeExposureMode:(id)sender
-{
-    UISegmentedControl *control = sender;
-    AVCaptureExposureMode mode = (AVCaptureExposureMode)[self.exposureModes[control.selectedSegmentIndex] intValue];
-    NSError *error = nil;
-    
-    if ( [self.videoDevice lockForConfiguration:&error] ) {
-        if ( [self.videoDevice isExposureModeSupported:mode] ) {
-            self.videoDevice.exposureMode = mode;
-        }
-        else {
-            NSLog( @"Exposure mode %@ is not supported. Exposure mode is %@.", [self stringFromExposureMode:mode], [self stringFromExposureMode:self.videoDevice.exposureMode] );
-        }
-        [self.videoDevice unlockForConfiguration];
-    }
-    else {
-        NSLog( @"Could not lock device for configuration: %@", error );
-    }
-}
-
-- (IBAction)changeWhiteBalanceMode:(id)sender
-{
-    UISegmentedControl *control = sender;
-    AVCaptureWhiteBalanceMode mode = (AVCaptureWhiteBalanceMode)[self.whiteBalanceModes[control.selectedSegmentIndex] intValue];
-    NSError *error = nil;
-    
-    if ( [self.videoDevice lockForConfiguration:&error] ) {
-        if ( [self.videoDevice isWhiteBalanceModeSupported:mode] ) {
-            self.videoDevice.whiteBalanceMode = mode;
-        }
-        else {
-            NSLog( @"White balance mode %@ is not supported. White balance mode is %@.", [self stringFromWhiteBalanceMode:mode], [self stringFromWhiteBalanceMode:self.videoDevice.whiteBalanceMode] );
-        }
-        [self.videoDevice unlockForConfiguration];
-    }
-    else {
-        NSLog( @"Could not lock device for configuration: %@", error );
-    }
-}
-
-- (IBAction)changeLensPosition:(id)sender
-{
-    UISlider *control = sender;
-    NSError *error = nil;
-    
-    if ( [self.videoDevice lockForConfiguration:&error] ) {
-        [self.videoDevice setFocusModeLockedWithLensPosition:control.value completionHandler:nil];
-        [self.videoDevice unlockForConfiguration];
-    }
-    else {
-        NSLog( @"Could not lock device for configuration: %@", error );
-    }
-}
-
-- (IBAction)changeExposureDuration:(id)sender
-{
-    UISlider *control = sender;
-    NSError *error = nil;
-    
-    double p = pow( control.value, kExposureDurationPower ); // Apply power function to expand slider's low-end range
-    double minDurationSeconds = MAX( CMTimeGetSeconds( self.videoDevice.activeFormat.minExposureDuration ), kExposureMinimumDuration );
-    double maxDurationSeconds = CMTimeGetSeconds( self.videoDevice.activeFormat.maxExposureDuration );
-    double newDurationSeconds = p * ( maxDurationSeconds - minDurationSeconds ) + minDurationSeconds; // Scale from 0-1 slider range to actual duration
-    
-    if ( self.videoDevice.exposureMode == AVCaptureExposureModeCustom ) {
-        if ( newDurationSeconds < 1 ) {
-            int digits = MAX( 0, 2 + floor( log10( newDurationSeconds ) ) );
-            self.exposureDurationValueLabel.text = [NSString stringWithFormat:@"1/%.*f", digits, 1/newDurationSeconds];
-        }
-        else {
-            self.exposureDurationValueLabel.text = [NSString stringWithFormat:@"%.2f", newDurationSeconds];
-        }
-    }
-    
-    if ( [self.videoDevice lockForConfiguration:&error] ) {
-        [self.videoDevice setExposureModeCustomWithDuration:CMTimeMakeWithSeconds( newDurationSeconds, 1000*1000*1000 )  ISO:AVCaptureISOCurrent completionHandler:nil];
-        [self.videoDevice unlockForConfiguration];
-    }
-    else {
-        NSLog( @"Could not lock device for configuration: %@", error );
-    }
-}
-
-
-
-- (IBAction)changeISO:(id)sender
-{
-    UISlider *control = sender;
-    NSError *error = nil;
-    
-    if ( [self.videoDevice lockForConfiguration:&error] ) {
-        [self.videoDevice setExposureModeCustomWithDuration:AVCaptureExposureDurationCurrent ISO:control.value completionHandler:nil];
-        [self.videoDevice unlockForConfiguration];
-    }
-    else {
-        NSLog( @"Could not lock device for configuration: %@", error );
-    }
-}
-
-- (IBAction)changeExposureTargetBias:(id)sender
-{
-    UISlider *control = sender;
-    NSError *error = nil;
-    
-    if ( [self.videoDevice lockForConfiguration:&error] ) {
-        [self.videoDevice setExposureTargetBias:control.value completionHandler:nil];
-        [self.videoDevice unlockForConfiguration];
-        self.exposureTargetBiasValueLabel.text = [NSString stringWithFormat:@"%.1f", control.value];
-    }
-    else {
-        NSLog( @"Could not lock device for configuration: %@", error );
-    }
-}
-
-- (IBAction)changeTemperature:(id)sender
-{
-    AVCaptureWhiteBalanceTemperatureAndTintValues temperatureAndTint = {
-        .temperature = self.temperatureSlider.value,
-        .tint = self.tintSlider.value,
-    };
-    
-    [self setWhiteBalanceGains:[self.videoDevice deviceWhiteBalanceGainsForTemperatureAndTintValues:temperatureAndTint]];
-}
-
-- (IBAction)changeTint:(id)sender
-{
-    AVCaptureWhiteBalanceTemperatureAndTintValues temperatureAndTint = {
-        .temperature = self.temperatureSlider.value,
-        .tint = self.tintSlider.value,
-    };
-    
-    [self setWhiteBalanceGains:[self.videoDevice deviceWhiteBalanceGainsForTemperatureAndTintValues:temperatureAndTint]];
-}
-
-- (IBAction)lockWithGrayWorld:(id)sender
-{
-    [self setWhiteBalanceGains:self.videoDevice.grayWorldDeviceWhiteBalanceGains];
-}
-
-- (IBAction)changeLensStabilization:(id)sender
-{
-    UISegmentedControl *control = sender;
-    BOOL lensStabilizationDuringBracketedCaptureEnabled = ( control.selectedSegmentIndex ? YES : NO );
-    if ( lensStabilizationDuringBracketedCaptureEnabled ) {
-        self.stillButton.enabled = NO;
-    }
-    dispatch_async( self.sessionQueue, ^{
-        if ( self.stillImageOutput.lensStabilizationDuringBracketedCaptureSupported ) {
-            if ( lensStabilizationDuringBracketedCaptureEnabled ) {
-                // Still image capture will be done with the bracketed capture API.
-                self.stillImageOutput.lensStabilizationDuringBracketedCaptureEnabled = YES;
-                NSArray *bracketSettings;
-                if ( self.videoDevice.exposureMode == AVCaptureExposureModeCustom ) {
-                    bracketSettings = @[[AVCaptureManualExposureBracketedStillImageSettings manualExposureSettingsWithExposureDuration:AVCaptureExposureDurationCurrent ISO:AVCaptureISOCurrent]];
-                }
-                else {
-                    bracketSettings = @[[AVCaptureAutoExposureBracketedStillImageSettings autoExposureSettingsWithExposureTargetBias:AVCaptureExposureTargetBiasCurrent]];
-                }
-                [self.stillImageOutput prepareToCaptureStillImageBracketFromConnection:[self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo]
-                                                                     withSettingsArray:bracketSettings
-                                                                     completionHandler:^( BOOL prepared, NSError *error ) {
-                                                                         if ( error ) {
-                                                                             NSLog( @"Error preparing for bracketed capture %@", error );
-                                                                         }
-                                                                         dispatch_async( dispatch_get_main_queue(), ^{
-                                                                             self.stillButton.enabled = YES;
-                                                                         } );
-                                                                     }];
-            }
-            else {
-                self.stillImageOutput.lensStabilizationDuringBracketedCaptureEnabled = NO;
-            }
-        }
-    } );
-}
-
-- (IBAction)sliderTouchBegan:(id)sender
-{
-    UISlider *slider = (UISlider*)sender;
-    [self setSlider:slider highlightColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1.0 alpha:1.0]];
-}
-
-- (IBAction)sliderTouchEnded:(id)sender
-{
-    UISlider *slider = (UISlider*)sender;
-    [self setSlider:slider highlightColor:[UIColor yellowColor]];
-}
-
 #pragma mark UI
-
-- (void)configureManualHUD
-{
+- (void)configureManualHUD {
     // Manual focus controls
     self.focusModes = @[@(AVCaptureFocusModeContinuousAutoFocus), @(AVCaptureFocusModeLocked)];
     
@@ -1547,9 +1084,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     self.lensStabilizationControl.selectedSegmentIndex = ( self.stillImageOutput.lensStabilizationDuringBracketedCaptureEnabled ? 1 : 0 );
     [self.lensStabilizationControl setEnabled:self.stillImageOutput.lensStabilizationDuringBracketedCaptureSupported forSegmentAtIndex:1];
 }
-
-- (void)setSlider:(UISlider*)slider highlightColor:(UIColor*)color
-{
+- (void)setSlider:(UISlider*)slider highlightColor:(UIColor*)color {
     slider.tintColor = color;
     
     if ( slider == self.lensPositionSlider ) {
@@ -1573,18 +1108,14 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 }
 
 #pragma mark File Output Recording Delegate
-
-- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didStartRecordingToOutputFileAtURL:(NSURL *)fileURL fromConnections:(NSArray *)connections
-{
+- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didStartRecordingToOutputFileAtURL:(NSURL *)fileURL fromConnections:(NSArray *)connections {
     // Enable the Record button to let the user stop the recording.
     dispatch_async( dispatch_get_main_queue(), ^{
         self.recordButton.enabled = YES;
         [self.recordButton setTitle:NSLocalizedString( @"Stop", @"Recording button stop title") forState:UIControlStateNormal];
     });
 }
-
-- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error
-{
+- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error {
     // Note that currentBackgroundRecordingID is used to end the background task associated with this recording.
     // This allows a new recording to be started, associated with a new UIBackgroundTaskIdentifier, once the movie file output's isRecording property
     // is back to NO — which happens sometime after this method returns.
@@ -1643,9 +1174,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 }
 
 #pragma mark Device Configuration
-
-- (void)focusWithMode:(AVCaptureFocusMode)focusMode exposeWithMode:(AVCaptureExposureMode)exposureMode atDevicePoint:(CGPoint)point monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange
-{
+- (void)focusWithMode:(AVCaptureFocusMode)focusMode exposeWithMode:(AVCaptureExposureMode)exposureMode atDevicePoint:(CGPoint)point monitorSubjectAreaChange:(BOOL)monitorSubjectAreaChange {
     dispatch_async( self.sessionQueue, ^{
         AVCaptureDevice *device = self.videoDevice;
         
@@ -1671,9 +1200,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         }
     } );
 }
-
-+ (void)setFlashMode:(AVCaptureFlashMode)flashMode forDevice:(AVCaptureDevice *)device
-{
++ (void)setFlashMode:(AVCaptureFlashMode)flashMode forDevice:(AVCaptureDevice *)device {
     if ( device.hasFlash && [device isFlashModeSupported:flashMode] ) {
         NSError *error = nil;
         if ( [device lockForConfiguration:&error] ) {
@@ -1685,9 +1212,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         }
     }
 }
-
-- (void)setWhiteBalanceGains:(AVCaptureWhiteBalanceGains)gains
-{
+- (void)setWhiteBalanceGains:(AVCaptureWhiteBalanceGains)gains {
     NSError *error = nil;
     
     if ( [self.videoDevice lockForConfiguration:&error] ) {
@@ -1701,9 +1226,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 }
 
 #pragma mark Utilities
-
-+ (AVCaptureDevice *)deviceWithMediaType:(NSString *)mediaType preferringPosition:(AVCaptureDevicePosition)position
-{
++ (AVCaptureDevice *)deviceWithMediaType:(NSString *)mediaType preferringPosition:(AVCaptureDevicePosition)position {
     NSArray *devices = [AVCaptureDevice devicesWithMediaType:mediaType];
     AVCaptureDevice *captureDevice = devices.firstObject;
     
@@ -1716,9 +1239,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     
     return captureDevice;
 }
-
-- (NSString *)stringFromFocusMode:(AVCaptureFocusMode) focusMode
-{
+- (NSString *)stringFromFocusMode:(AVCaptureFocusMode) focusMode {
     NSString *string = @"INVALID FOCUS MODE";
     
     if ( focusMode == AVCaptureFocusModeLocked ) {
@@ -1733,9 +1254,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     
     return string;
 }
-
-- (NSString *)stringFromExposureMode:(AVCaptureExposureMode) exposureMode
-{
+- (NSString *)stringFromExposureMode:(AVCaptureExposureMode) exposureMode {
     NSString *string = @"INVALID EXPOSURE MODE";
     
     if ( exposureMode == AVCaptureExposureModeLocked ) {
@@ -1753,9 +1272,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     
     return string;
 }
-
-- (NSString *)stringFromWhiteBalanceMode:(AVCaptureWhiteBalanceMode) whiteBalanceMode
-{
+- (NSString *)stringFromWhiteBalanceMode:(AVCaptureWhiteBalanceMode) whiteBalanceMode {
     NSString *string = @"INVALID WHITE BALANCE MODE";
     
     if ( whiteBalanceMode == AVCaptureWhiteBalanceModeLocked ) {
@@ -1770,9 +1287,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     
     return string;
 }
-
-- (AVCaptureWhiteBalanceGains)normalizedGains:(AVCaptureWhiteBalanceGains) gains
-{
+- (AVCaptureWhiteBalanceGains)normalizedGains:(AVCaptureWhiteBalanceGains) gains {
     AVCaptureWhiteBalanceGains g = gains;
     
     g.redGain = MAX( 1.0, g.redGain );

@@ -36,7 +36,7 @@
                     </view>
                     <connections>
                         <outlet property="onOffButton" destination="zji-BW-LgJ" id="k95-2S-C1n"/>
-                        <outlet property="previewView" destination="tta-2s-XTh" id="YTV-vt-Gvn"/>
+                        <outlet property="previewView" destination="tta-2s-XTh" id="5Sq-R9-qpr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

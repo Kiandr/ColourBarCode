@@ -6,12 +6,12 @@ Abstract:
 Camera preview.
 */
 
-@import UIKit;
-
-@class AVCaptureSession;
-
-@interface AAPLPreviewView : UIView
-
-@property (nonatomic) AVCaptureSession *session;
-
-@end
+//@import UIKit;
+//
+//@class AVCaptureSession;
+//
+//@interface AAPLPreviewView : UIView
+//
+//@property (nonatomic) AVCaptureSession *session;
+//
+//@end
