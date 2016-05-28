@@ -19,8 +19,6 @@
 		9F8D18AC1CEFCDF1005E52A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F5E69A71CEFAF93004E26D5 /* LaunchScreen.storyboard */; };
 		9FE96A681CF3AD7C00636F63 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE96A671CF3AD7C00636F63 /* AppDelegate.m */; };
 		9FE96A6F1CF3AD9800636F63 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE96A6D1CF3AD9800636F63 /* ViewController.m */; };
-		9FE96A711CF4038600636F63 /* AVFoundationImageProcessing.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE96A701CF4038600636F63 /* AVFoundationImageProcessing.m */; };
-		9FE96A781CF407CA00636F63 /* AAPLPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE96A771CF407CA00636F63 /* AAPLPreviewView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9F3C6D031CF5665B00FB0C7A /* ViewAVFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewAVFoundation.h; path = Views/ViewAVFoundation.h; sourceTree = "<group>"; };
 		9F5E69931CEFAF92004E26D5 /* ColourBarCode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColourBarCode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F5E69971CEFAF93004E26D5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9F5E69A01CEFAF93004E26D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -60,11 +59,7 @@
 		9FE96A691CF3AD8600636F63 /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseModel.h; path = Models/BaseModel.h; sourceTree = "<group>"; };
 		9FE96A6C1CF3AD9800636F63 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = Controllers/ViewController.h; sourceTree = "<group>"; };
 		9FE96A6D1CF3AD9800636F63 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = Controllers/ViewController.m; sourceTree = "<group>"; };
-		9FE96A701CF4038600636F63 /* AVFoundationImageProcessing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AVFoundationImageProcessing.m; path = Delegates/AVFoundationImageProcessing.m; sourceTree = "<group>"; };
-		9FE96A721CF4039600636F63 /* AVFoundationImageProcessing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AVFoundationImageProcessing.h; path = Delegates/AVFoundationImageProcessing.h; sourceTree = "<group>"; };
 		9FE96A751CF4057800636F63 /* AVFoundationMetaDataDetection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AVFoundationMetaDataDetection.h; path = ColourBarCode/Protocols/AVFoundationMetaDataDetection.h; sourceTree = "<group>"; };
-		9FE96A761CF407CA00636F63 /* AAPLPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AAPLPreviewView.h; path = Controllers/AAPLPreviewView.h; sourceTree = "<group>"; };
-		9FE96A771CF407CA00636F63 /* AAPLPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AAPLPreviewView.m; path = Controllers/AAPLPreviewView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +87,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9F3C6D021CF5663200FB0C7A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9F3C6D031CF5665B00FB0C7A /* ViewAVFoundation.h */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		9F5E698A1CEFAF92004E26D5 = {
 			isa = PBXGroup;
 			children = (
@@ -156,12 +159,8 @@
 		9F69077F1CEFD2A200DC9774 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9FE96A761CF407CA00636F63 /* AAPLPreviewView.h */,
-				9FE96A771CF407CA00636F63 /* AAPLPreviewView.m */,
 				9FE96A6C1CF3AD9800636F63 /* ViewController.h */,
 				9FE96A6D1CF3AD9800636F63 /* ViewController.m */,
-				9FE96A721CF4039600636F63 /* AVFoundationImageProcessing.h */,
-				9FE96A701CF4038600636F63 /* AVFoundationImageProcessing.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -199,6 +198,7 @@
 		9F8D18A61CEFCBE6005E52A6 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				9F3C6D021CF5663200FB0C7A /* Views */,
 				9F69077F1CEFD2A200DC9774 /* Controllers */,
 			);
 			name = iOS;
@@ -371,9 +371,7 @@
 				9F5E69A41CEFAF93004E26D5 /* ColourBarCode.xcdatamodeld in Sources */,
 				9F5E69981CEFAF93004E26D5 /* main.m in Sources */,
 				9FE96A681CF3AD7C00636F63 /* AppDelegate.m in Sources */,
-				9FE96A711CF4038600636F63 /* AVFoundationImageProcessing.m in Sources */,
 				9FE96A6F1CF3AD9800636F63 /* ViewController.m in Sources */,
-				9FE96A781CF407CA00636F63 /* AAPLPreviewView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

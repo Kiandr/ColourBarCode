@@ -103,6 +103,7 @@ static void * LensStabilizationContext = &LensStabilizationContext;
 @property(nonatomic, retain) __attribute__((NSObject)) CMFormatDescriptionRef outputVideoFormatDescription;
 @property(nonatomic, retain) __attribute__((NSObject)) CMFormatDescriptionRef outputAudioFormatDescription;
 // Specific options for this application:
+@property (strong, nonatomic)  UIView *previewLayerTop;
 @property (nonatomic, strong) CALayer *customPreviewLayer;
 @property (strong, nonatomic) CALayer *imageLayer;
 @property (strong, nonatomic) CALayer *calLayerPlus;
@@ -191,7 +192,11 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
     
     
     // Setup the preview view.
-    self.previewView.session = self.session;
+    //[self.previewView session] = self.session;
+    //self.previewLayerTop = self.view;
+    _previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
+    
+    
     
     // Communicate with the session and other session objects on this queue.
     self.sessionQueue = dispatch_queue_create( "session queue", DISPATCH_QUEUE_SERIAL );
@@ -272,16 +277,16 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
                     initialVideoOrientation = (AVCaptureVideoOrientation)statusBarOrientation;
                 }
                 
-                /*				AVCaptureVideoPreviewLayer *previewLayer = (AVCaptureVideoPreviewLayer *)self.previewView.layer;
-                 _previewLayer = (AVCaptureVideoPreviewLayer *)self.previewView.layer;
-                 
-                 _previewLayer.connection.videoOrientation = initialVideoOrientation;
-                 _previewLayer = [CALayer layer];
-                 _previewLayer.bounds = CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width);
-                 _previewLayer.position = CGPointMake(self.view.frame.size.width/2., self.view.frame.size.height/2.);
-                 _previewLayer.affineTransform = CGAffineTransformMakeRotation(M_PI/2);
-                 [self.view.layer addSublayer:_previewLayer];*/
-                
+//                CaptureVideoPreviewLayer *previewLayer = (AVCaptureVideoPreviewLayer *)self.previewView.layer;
+//                 _previewLayer = (AVCaptureVideoPreviewLayer *)self.view.layer;
+//
+//                 _previewLayer.connection.videoOrientation = initialVideoOrientation;
+//                 _previewLayer = [CALayer layer];
+//                 _previewLayer.bounds = CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width);
+//                 _previewLayer.position = CGPointMake(self.view.frame.size.width/2., self.view.frame.size.height/2.);
+//                 _previewLayer.affineTransform = CGAffineTransformMakeRotation(M_PI/2);
+//                 [self.view.layer addSublayer:_previewLayer];
+//
             } );
         }
         else {
@@ -323,7 +328,9 @@ static const float kExposureMinimumDuration = 1.0/1000; // Limit exposure durati
             [self configureManualHUD];
         } );
     } );
-}
+    
+    
+    }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self AddNewnCALayer];

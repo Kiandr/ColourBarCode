@@ -8,12 +8,12 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="NXC-Eg-4JF"/>
                         <viewControllerLayoutGuide type="bottom" id="3cU-ec-UHy"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="tta-2s-XTh" customClass="AAPLPreviewView">
+                    <view key="view" contentMode="scaleToFill" id="tta-2s-XTh">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -36,7 +36,6 @@
                     </view>
                     <connections>
                         <outlet property="onOffButton" destination="zji-BW-LgJ" id="k95-2S-C1n"/>
-                        <outlet property="previewView" destination="tta-2s-XTh" id="5Sq-R9-qpr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
